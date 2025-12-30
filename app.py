@@ -51,11 +51,16 @@ elif source_radio == "Webcam (Real-time)":
         video_processor_factory=VideoProcessor,
         rtc_configuration={
             "iceServers": [
-                {"urls": ["stun:stun.l.google.com:19302"]},
-                {"urls": ["stun:stun1.l.google.com:19302"]},
-                {"urls": ["stun:stun2.l.google.com:19302"]},
-                {"urls": ["stun:stun3.l.google.com:19302"]},
-                {"urls": ["stun:stun4.l.google.com:19302"]},
+                { "urls": ["stun:stun.l.google.com:19302"] },
+                { "urls": ["stun:stun.l.google.com:5349"] },
+                { "urls": ["stun:stun1.l.google.com:3478"] },
+                { "urls": ["stun:stun1.l.google.com:5349"] },
+                { "urls": ["stun:stun2.l.google.com:19302"] },
+                { "urls": ["stun:stun2.l.google.com:5349"] },
+                { "urls": ["stun:stun3.l.google.com:3478"] },
+                { "urls": ["stun:stun3.l.google.com:5349"] },
+                { "urls": ["stun:stun4.l.google.com:19302"] },
+                { "urls": ["stun:stun4.l.google.com:5349"] }
             ]
         },
         media_stream_constraints={
@@ -66,3 +71,4 @@ elif source_radio == "Webcam (Real-time)":
     )
 
 st.sidebar.info("Model ini mendeteksi: Helmet, Person, Motorcycle")
+
