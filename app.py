@@ -33,18 +33,33 @@ if source_radio == "Gambar":
 elif source_radio == "Webcam (Real-time)":
     st.write("Izinkan akses kamera pada browser untuk memulai deteksi.")
 
-    class VideoProcessor(VideoTransformerBase):
-        def __init__(self):
-            self.model = model
-
+    class VideoProcessor:
         def recv(self, frame):
             img = frame.to_ndarray(format="bgr24")
-
-            results = self.model.predict(img, conf=conf_threshold)
-
+            results = model.predict(img, conf=conf_threshold)
             annotated_frame = results[0].plot()
-
             return av.VideoFrame.from_ndarray(annotated_frame, format="bgr24")
+
+    # Inisialisasi WebRTC Streamer dengan STUN Server yang lebih lengkap
+    webrtc_streamer(
+        key="yolo-detection",
+        video_processor_factory=VideoProcessor,
+        # Penambahan ICE Servers untuk menembus firewall jaringan
+        rtc_configuration={
+            "iceServers": [
+                {"urls": ["stun:stun.l.google.com:19302"]},
+                {"urls": ["stun:stun1.l.google.com:19302"]},
+                {"urls": ["stun:stun2.l.google.com:19302"]},
+                {"urls": ["stun:stun3.l.google.com:19302"]},
+                {"urls": ["stun:stun4.l.google.com:19302"]},
+            ]
+        },
+        media_stream_constraints={
+            "video": True,
+            "audio": False
+        },
+        async_processing=True,
+    )
 
     # Inisialisasi WebRTC Streamer
     webrtc_streamer(
@@ -57,3 +72,4 @@ elif source_radio == "Webcam (Real-time)":
     )
 
 st.sidebar.info("Model ini mendeteksi: Helmet, Person, Motorcycle")
+
